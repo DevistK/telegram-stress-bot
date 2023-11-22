@@ -4,14 +4,7 @@ import { AppService } from './app.service';
 import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
-  imports: [
-    // AppUpdate,
-    // TelegrafModule.forRoot({
-    //   middlewares: [],
-    //   botName: 'wyFoodStillBot',
-    //   token: process.env.TELEGRAM_API_KEY,
-    // }),
-  TelegramModule],
+  imports: [TelegramModule],
   controllers: [AppController],
   providers: [AppService],
 })
