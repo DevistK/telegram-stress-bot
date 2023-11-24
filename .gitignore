@@ -37,3 +37,4 @@ lerna-debug.log*
 
 env.dev
 /src/dataset.txt
+/src/asset
