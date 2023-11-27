@@ -1,33 +1,30 @@
 name: telegrambot-action
-
 on:
   push:
     branches: [ "main" ]
-
 jobs:
   cd:
     name : telegrambot-action
-    # This workflow contains a single job called "build"
-    build :
-      # The type of runner that the job will run on
-      runs-on : ubuntu-latest
-      # Steps represent a sequence of tasks that will be executed as part of the job
-      steps:
-        - name : checkout
-          uses : actions/checkout@v3
+    # The type of runner that the job will run on
+    runs-on : ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name : checkout
+        uses : actions/checkout@v3
 
-        - id : "auth"
-          name : Authenticate to GCP
-          uses : google-github-actions/auth@v0
-          with :
-            credentials_json: ${{ secrets.GCP_SA_KEY }}
-        - name : server-on
-          run : |-
-            gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
-            "cd github-action && \
-            docker-compose stop && \
-            docker system prune -a && \
-            git pull &&
-            docker-compose -f docker-compose.prod.yaml build && \
-            docker-compose -f docker-compose.prod.yaml up -d
-            "
+      - id : "auth"
+        name : Authenticate to GCP
+        uses : google-github-actions/auth@v0
+        with :
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name : server-on
+        run : |-
+          gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
+          "cd github-action && \
+          docker-compose stop && \
+          docker system prune -a && \
+          git pull &&
+          docker-compose -f docker-compose.prod.yaml build && \
+          docker-compose -f docker-compose.prod.yaml up -d
+          "
