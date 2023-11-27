@@ -73,7 +73,7 @@ export class TelegramService {
       await this.bot.sendMessage(
         chatId,
         'This person is your slave.\n' +
-          'His name is Hank.\n' +
+          'His name is @Hank.\n' +
           'Please take good care of him.',
       );
     });
