@@ -41,4 +41,4 @@ jobs:
         run : npm run build
 
       - name : Start Server
-        run : sudo npm run start:dev &
+        run : nohup sudo npm run start:dev > server.log 2>&1 &
