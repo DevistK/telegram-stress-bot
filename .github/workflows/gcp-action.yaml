@@ -22,9 +22,10 @@ jobs:
         run : |-
           gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
           "cd github-action && \
+          git config --global credential.helper 'store --file=.git-credentials' && \
+          echo 'https://DevistK:${{ secrets.GIT_ACCESS_TOKEN }}@github.com/' > .git-credentials && \
           git checkout main && \
-          git pull
-          "
+          git pull"
 
       - name : Set up Node.js
         uses : actions/setup-node@v3
