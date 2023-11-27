@@ -22,7 +22,6 @@ jobs:
         run : |-
           gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
           "cd github-action && \
-          git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no' && \
           git checkout main && \
           git pull
           "
