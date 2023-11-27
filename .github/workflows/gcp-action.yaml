@@ -22,11 +22,7 @@ jobs:
         run : |-
           gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
           "cd github-action && \
-          docker-compose stop && \
-          docker system prune -a && \
-          git pull &&
-          docker-compose -f docker-compose.prod.yaml build && \
-          docker-compose -f docker-compose.prod.yaml up -d
+          git pull
           "
 
       - name : Set up Node.js
