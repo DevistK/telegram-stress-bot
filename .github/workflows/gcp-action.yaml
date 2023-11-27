@@ -22,9 +22,6 @@ jobs:
         run : |-
           gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
           "cd github-action && \
-          git init && \ 
-          git remote add origin https://github.com/DevistK/telegram-stress-bot.git && \
-          git fetch && \
           git checkout main && \
           git pull
           "
