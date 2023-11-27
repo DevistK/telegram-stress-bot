@@ -21,8 +21,8 @@ on:
 
 env:
   PROJECT_ID: $
-  GCE_INSTANCE: stress-telegram # TODO: update to instance name
-  GCE_INSTANCE_ZONE: us-west1-a # TODO: update to instance zone
+  GCE_INSTANCE: stress-telegram
+  GCE_INSTANCE_ZONE: us-west1-a
 
 jobs:
   setup-build-publish-deploy:
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
         with:
           version: '290.0.1'
           service_account_key: $
