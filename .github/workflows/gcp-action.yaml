@@ -20,6 +20,10 @@ jobs:
       - name : Install Dependencies
         run : npm install
 
+      - name : Setting ENV.DEV
+        run : |
+          echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" >> env.dev
+
       - name : Build
         run : npm run build
 
