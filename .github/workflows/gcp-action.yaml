@@ -18,15 +18,11 @@ jobs:
         with :
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Create known hosts file
-        run: touch $HOME/.ssh/known_hosts
-        
-      - name : Update known hosts
-        run : ssh-keyscan -H 35.212.250.221 >> $HOME/.ssh/known_hosts
       - name : server-on
         run : |-
           gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
           "cd github-action && \
+          git config --global core.sshCommand 'ssh -o StrictHostKeyChecking=no' && \
           git checkout main && \
           git pull
           "
