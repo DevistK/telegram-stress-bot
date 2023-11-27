@@ -12,24 +12,6 @@ jobs:
       - name : Checkout Branch
         uses : actions/checkout@v3
 
-      - name : Set up Node.js
-        uses : actions/setup-node@v3
-        with :
-          node-version: '20.x'
-
-      - name : Install Dependencies
-        run : npm install
-
-      - name : Setting ENV.DEV
-        run : |
-          echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" >> env.dev
-
-      - name : Build
-        run : npm run build
-
-      - name : Start Server
-        run : npm run start:dev
-
       - id : "auth"
         name : Authenticate to GCP
         uses : google-github-actions/auth@v0
@@ -46,3 +28,21 @@ jobs:
           docker-compose -f docker-compose.prod.yaml build && \
           docker-compose -f docker-compose.prod.yaml up -d
           "
+
+      - name : Set up Node.js
+        uses : actions/setup-node@v3
+        with :
+          node-version: '20.x'
+
+      - name : Install Dependencies
+        run : npm install
+
+      - name : Setting ENV.DEV
+        run : |
+          echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" >> env.dev
+
+      - name : Build
+        run : npm run build
+
+      - name : Start Server
+        run : sudo npm run start:dev
