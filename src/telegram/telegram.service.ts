@@ -4,6 +4,8 @@ import { linkRegex, wordRegex } from '../common/regex/filter.regex';
 import {
   helpCommend,
   slaveCommend,
+  smileCommend,
+  smokeCommend,
   startCommend,
   unbanCommend,
 } from '../common/regex/commend.regex';
@@ -74,8 +76,26 @@ export class TelegramService {
         chatId,
         'This person is your slave.\n' +
           'His name is @Hank.\n' +
-          'Please take good care of him.',
+          'Please take good care of him. \n' +
+          'To move him, select the command below. ex) /smoke\n' +
+          "/smoke  : Let's go smoke on the first floor \n" +
+          '/smile : . Make me laugh',
       );
+    });
+
+    this.bot.onText(smokeCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      await this.bot.sendMessage(
+        chatId,
+        'Okay, master, are you going for a smoke right now.',
+      );
+    });
+
+    this.bot.onText(smileCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      await this.bot.sendMessage(chatId, "I am my master's clown 🤡.");
     });
 
     this.bot.onText(unbanCommend, async (msg) => {
