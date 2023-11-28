@@ -38,30 +38,14 @@ jobs:
         uses : google-github-actions/auth@v0
         with :
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-#      - name : Latest Github Code Pull
-#        run : |-
-#          gcloud compute ssh --project=${{ secrets.GCP_PROJECT_ID }} --zone=${{ secrets.GCP_ZONE }} ${{ secrets.GCP_VM_NAME }}@${{ secrets.GCP_VM_NAME2 }} -- \
-#          "cd ow-stress-relief && \
-#          git config --global credential.helper 'store --file=.git-credentials' && \
-#          echo 'https://DevistK:${{ secrets.GIT_ACCESS_TOKEN }}@github.com/' > .git-credentials && \
-#          git checkout main && \
-#          git pull"
-#
-#      - name : Set up Node.js
-#        uses : actions/setup-node@v3
-#        with :
-#          node-version: '20.x'
-#
-#      - name : Install Dependencies
-#        run : npm install
-#
-#      - name : Setting ENV.DEV
-#        run : |
-#          echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" >> env.dev
-#
-#      - name : Build
-#        run : npm run build
-#
-#      - name : Start Server
-#        run : nohup sudo npm run start:dev > server.log 2>&1 &
+      - name : SSH into GCP VM and Deploy
+        uses : appleboy/ssh-action@master
+        with :
+          host : ${{ secrets.GCP_VM_HOST }}
+          username : ${{ secrets.GCP_VM_NAME }}
+          key : ${{ secrets.GCP_SA_KEY }}
+          scripts : |
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker pull tjehdgur1500/telegram-bot-gcp:latest
+            docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
