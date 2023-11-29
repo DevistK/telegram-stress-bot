@@ -46,11 +46,8 @@ jobs:
           username : ${{ secrets.GCP_VM_NAME }}
           key : ${{ secrets.GCP_SSH_KEY }}
           port : ${{ secrets.GCP_PORT }}
-          scripts : |
+          script : |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
             docker pull tjehdgur1500/telegram-bot-gcp:latest
             docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
-      - name : Connect Check
-        run : |
-          echo Connect Check Success
