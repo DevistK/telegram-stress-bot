@@ -42,9 +42,6 @@ jobs:
       - name: Generate env.dev
         run: echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" > env.dev
 
-      - name: Copy env.dev to Docker container
-        run: docker cp env.dev CONTAINER_ID:/usr/src/telegram-bot/env.dev
-
       - name : SSH into GCP VM and Deploy
         uses : appleboy/ssh-action@master
         with :
@@ -56,4 +53,5 @@ jobs:
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
             docker pull tjehdgur1500/telegram-bot-gcp:latest
+            docker cp env.dev $(docker ps -a -q):/usr/src/telegram-bot/env.dev
             docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
