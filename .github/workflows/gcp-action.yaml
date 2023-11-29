@@ -51,3 +51,6 @@ jobs:
             docker rm $(docker ps -a -q)
             docker pull tjehdgur1500/telegram-bot-gcp:latest
             docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
+      - name : Connect Check
+        run : |
+          echo Connect Check Success
