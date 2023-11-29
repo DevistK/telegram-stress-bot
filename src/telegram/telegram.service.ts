@@ -86,10 +86,7 @@ export class TelegramService {
     this.bot.onText(smokeCommend, async (msg) => {
       const chatId = msg.chat.id;
 
-      await this.bot.sendMessage(
-        chatId,
-        'Okay, master, are you going for a smoke right now.',
-      );
+      await this.bot.sendMessage(chatId, 'Okay, master, ㄱㅅㄴㅇ');
     });
 
     this.bot.onText(smileCommend, async (msg) => {
