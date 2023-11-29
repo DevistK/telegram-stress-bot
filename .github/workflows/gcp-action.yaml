@@ -39,16 +39,13 @@ jobs:
         with :
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Debug SSH Key
-        run: echo "${{ secrets.GCP_SSH_KEY }}"
-        
       - name : SSH into GCP VM and Deploy
         uses : appleboy/ssh-action@master
         with :
           host : ${{ secrets.GCP_VM_HOST }}
           username : ${{ secrets.GCP_VM_NAME }}
           key : ${{ secrets.GCP_SSH_KEY }}
-          port : 80
+          port : 22
           scripts : |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
