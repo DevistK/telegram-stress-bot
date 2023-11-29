@@ -45,7 +45,7 @@ jobs:
           host : ${{ secrets.GCP_VM_HOST }}
           username : ${{ secrets.GCP_VM_NAME }}
           key : ${{ secrets.GCP_SSH_KEY }}
-          port : 80
+          port : ${{ secrets.GCP_PORT }}
           scripts : |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
