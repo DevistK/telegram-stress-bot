@@ -16,12 +16,6 @@ jobs:
       - name : Checkout Branch
         uses : actions/checkout@v3
 
-      - name : Create env File
-        run : |
-          touch env.dev
-          echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" >> env.dev
-        shell: bash
-
       # 도커 로그인
       - name : Docker Login
         uses : docker/login-action@v2.0.0
@@ -45,16 +39,19 @@ jobs:
         with :
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      - name: Generate env.dev
+        run: echo "TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}" > env.dev
+
+      - name: Copy env.dev to Docker container
+        run: docker cp env.dev CONTAINER_ID:/usr/src/telegram-bot/env.dev
+
       - name : SSH into GCP VM and Deploy
         uses : appleboy/ssh-action@master
-        env :
-          TELEGRAM_API_KEY : ${{ secrets.TELEGRAM_API_KEY }}
         with :
           host : ${{ secrets.GCP_VM_HOST }}
           username : ${{ secrets.GCP_VM_NAME }}
           key : ${{ secrets.GCP_SSH_KEY }}
           port : ${{ secrets.GCP_PORT }}
-          envs : TELEGRAM_API_KEY
           script : |
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
