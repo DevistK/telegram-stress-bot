@@ -20,18 +20,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Generate env.dev
-        run: |
-          echo TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }} > env.dev
-          cat env.dev
-          cp env.dev ${{ github.workspace }}
-
       - name : Build and Push Docker Images
         uses : docker/build-push-action@v3.0.0
         with :
           context: .
           file : ./Dockerfile
-          build_args : TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}
           push : true
           tags : tjehdgur1500/telegram-bot-gcp
           labels: latest
