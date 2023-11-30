@@ -21,10 +21,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name : Generate ENV File
+        env:
+          TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
         run : |
-          echo "TELEGRAM_API_KEY=$TELEGRAM_API_KEY" >> ./env.dev
-        env :
-          VARIABLE : ${{ secrets.TELEGRAM_API_KEY }}
+          echo "TELEGRAM_API_KEY=$TELEGRAM_API_KEY" >> env.dev
+
 
       - name : Build and Push Docker Images
         uses : docker/build-push-action@v3.0.0
