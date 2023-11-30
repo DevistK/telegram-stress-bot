@@ -161,7 +161,7 @@ export class TelegramService {
 
   callGPT = async (prompt: string) => {
     const param: OpenAI.Chat.ChatCompletionCreateParams = {
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4-1106-preview',
       messages: [{ role: 'user', content: prompt }],
     };
 
