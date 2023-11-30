@@ -12,10 +12,6 @@ export const filterWordMessageList = [
 ];
 
 export const filterWordStickerList = [
-  'https://i.namu.wiki/i/9or_SWMZZwADwmILqRyK_50R_-h1SsI7UApSl0-k-u5JP_aXhXvHgCfwMb5RVnNih09z6usjw2ltPdjsxeQCIQ.webp',
-  'https://i.namu.wiki/i/3fhbdeFyMmq_JVeGGqyxegC-2fH5s1Twbpl-xWlZpvFO_s6hQcVh5z_3ErtVR5UJBJF0kalckqn4mBLPne1RZA.webp',
-  'https://i.namu.wiki/i/-yJWbNXB_78Cj8yuGFzU4gk1x9-L8CIeHdKQVuQB4JYJ3j33x6Pkigv6tf40dwDSg6RaAzsuEZW96M-P0TTKKg.webp',
-  'https://i.namu.wiki/i/Bs8nuZ8r2pgP8eLLaYfqbz95XNMURHA-uOluaXWvV2RajMt9uwX-o9a31HCAnvaLinJFHBNnLHX8G5rzgEwkCg.webp',
   './src/asset/asset1.webp',
   './src/asset/asset2.webp',
   './src/asset/asset3.webp',
