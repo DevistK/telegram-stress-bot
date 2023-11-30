@@ -60,10 +60,13 @@ export class TelegramService {
       );
     });
 
-    this.bot.onText(chatCommend, async (msg, match) => {
+    this.bot.onText(chatCommend, async (msg) => {
       const chatId = msg.chat.id;
-      if (match[1]) {
-        const content = await this.callGPT(msg.text);
+
+      const matchText = msg.text.match(/\/chat(.*)/);
+
+      if (matchText[1]) {
+        const content = await this.callGPT(matchText[1]);
         await this.bot.sendMessage(chatId, content);
       } else {
         await this.bot.sendMessage(
