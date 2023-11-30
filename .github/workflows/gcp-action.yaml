@@ -9,14 +9,11 @@ on:
 jobs:
   cd:
     name : Telegram Bot Action
-    # 우분투 컴퓨터 에서 Script 실행
     runs-on : ubuntu-latest
     steps:
-      # 코드를 워크플로우로 가져오는 github action
       - name : Checkout Branch
         uses : actions/checkout@v3
 
-      # 도커 로그인
       - name : Docker Login
         uses : docker/login-action@v2.0.0
         with :
@@ -33,7 +30,6 @@ jobs:
           tags : tjehdgur1500/telegram-bot-gcp
           labels: latest
 
-      # GCP 내 인스턴스에 접근하는 github action
       - id : "auth"
         name : Authenticate to GCP
         uses : google-github-actions/auth@v2
