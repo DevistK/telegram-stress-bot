@@ -20,12 +20,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name : Generate ENV File
+        run : |
+          echo "TELEGRAM_API_KEY=$TELEGRAM_API_KEY" >> ./env.dev
+        env :
+          VARIABLE : ${{ secrets.TELEGRAM_API_KEY }}
+
       - name : Build and Push Docker Images
         uses : docker/build-push-action@v3.0.0
         with :
           context: .
           file : ./Dockerfile
           push : true
+          platforms: linux/amd64
           tags : tjehdgur1500/telegram-bot-gcp
           labels: latest
 
@@ -44,6 +51,6 @@ jobs:
           port : ${{ secrets.GCP_PORT }}
           script : |
             docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
+            docker rm $(docker ps -a -q) && docker rmi tjehdgur1500/telegram-bot-gcp:latest
             docker pull tjehdgur1500/telegram-bot-gcp:latest
             docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
