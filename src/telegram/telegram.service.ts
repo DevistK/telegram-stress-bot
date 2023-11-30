@@ -138,7 +138,7 @@ export class TelegramService {
     // await this.bot.banChatMember(msg.chat.id, 5353197008);
   };
 
-  // @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_1PM)
   async cronMessage() {
     const chatIds = JSON.parse(
       fs.readFileSync('./src/common/chat/chatIds.json', 'utf-8'),
@@ -157,25 +157,18 @@ export class TelegramService {
               chatIdObj.chatId,
               'https://img.insight.co.kr/static/2022/07/05/700/img_20220705152003_84l45870.webp',
             );
-            await this.bot.sendMessage(
-              chatIdObj.chatId,
-              '안녕하세요 Solo Leveling : Unlimited\n' +
-                '몬스터를 얻고 , 해방시키세요 ! 시즌 점수를 올리고 성진우 PFP 를 얻고 자랑하세요. \n' +
-                '서비스 이용에 불편함이 생기시면 아래 연락처로 문의 부탁드립니다. \n\n' +
-                'Manager Email Address: elon@otherworld.network',
-              {
-                reply_markup: {
-                  inline_keyboard: [
-                    [
-                      {
-                        text: 'Solo Leveling : Unlimited',
-                        url: 'https://beta.sololeveling.otherworld.network/',
-                      },
-                    ],
+            await this.bot.sendMessage(chatIdObj.chatId, '🍚ㄱㅅㄴㅇ', {
+              reply_markup: {
+                inline_keyboard: [
+                  [
+                    {
+                      text: 'Solo Leveling : Unlimited',
+                      url: 'https://beta.sololeveling.otherworld.network/',
+                    },
                   ],
-                },
+                ],
               },
-            );
+            });
           }
         }
       } catch (error) {
