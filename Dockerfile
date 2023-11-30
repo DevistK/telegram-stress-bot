@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-ARG TELEGRAM_API_KEY=./env.dev
+ARG TELEGRAM_API_KEY=env.dev
 ENV TELEGRAM_API_KEY $TELEGRAM_API_KEY
 
 WORKDIR /usr/src/telegram-bot
