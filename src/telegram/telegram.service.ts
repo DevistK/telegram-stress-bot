@@ -135,7 +135,7 @@ export class TelegramService {
         chatId,
         '/start : 봇의 정보를 확인하는 개발자용 커맨드 \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
-          '/unban : 강퇴 당한 유저를 초대할 수 있게 합니다.',
+          '/chat : gpt 3.5 turbo 를 소환합니다. \n',
       );
     });
   }
