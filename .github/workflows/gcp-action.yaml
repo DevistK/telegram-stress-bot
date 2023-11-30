@@ -28,6 +28,7 @@ jobs:
         with :
           content: .
           file : ./Dockerfile
+          build_args : TELEGRAM_API_KEY=${{ secrets.TELEGRAM_API_KEY }}
           push : true
           tags : tjehdgur1500/telegram-bot-gcp
           labels: latest
@@ -57,5 +58,4 @@ jobs:
             docker rm $(docker ps -a -q)
             docker pull tjehdgur1500/telegram-bot-gcp:latest
             CONTAINER_ID=$(docker ps -q --filter ancestor=tjehdgur1500/telegram-bot-gcp:latest)
-            docker cp env.dev $CONTAINER_ID:/usr/src/telegram-bot/env.dev
             docker run -d -p 8000:8000 tjehdgur1500/telegram-bot-gcp:latest
