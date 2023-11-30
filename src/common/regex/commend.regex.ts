@@ -9,3 +9,5 @@ export const smileCommend = /\/smile/;
 export const unbanCommend = /\/unban/;
 
 export const helpCommend = /\/help/;
+
+export const chatCommend = /\/chat/;

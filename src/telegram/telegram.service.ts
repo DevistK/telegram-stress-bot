@@ -1,7 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
+import OpenAI from 'openai';
 import { linkRegex, wordRegex } from '../common/regex/filter.regex';
 import {
+  chatCommend,
   helpCommend,
   slaveCommend,
   smileCommend,
@@ -23,12 +25,15 @@ const TelegramBot = require('node-telegram-bot-api');
 export class TelegramService {
   private readonly bot: any;
   private logger = new Logger(TelegramService.name);
+  private openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 
   constructor() {
     this.bot = new TelegramBot(Token, { polling: true });
 
     this.bot.on('message', async (msg: any) => {
-      this.onReceiveMessage(msg);
+      await this.onReceiveMessage(msg);
 
       await this.bot.setMyCommands([
         {
@@ -53,6 +58,19 @@ export class TelegramService {
           'Solo Leveling: Unlimited \n' +
           'Bank account: 1104312345567',
       );
+    });
+
+    this.bot.onText(chatCommend, async (msg, match) => {
+      const chatId = msg.chat.id;
+      if (match[1]) {
+        const content = await this.callGPT(msg.text);
+        await this.bot.sendMessage(chatId, content);
+      } else {
+        await this.bot.sendMessage(
+          chatId,
+          '두번째 키워드가 입력되지 않았습니다.',
+        );
+      }
     });
 
     this.bot.onText(startCommend, async (msg) => {
@@ -113,15 +131,15 @@ export class TelegramService {
       await this.bot.sendMessage(
         chatId,
         '/start : 봇의 정보를 확인하는 개발자용 커맨드 \n' +
-          '/slave : 행크가 아직 노예인지 확인합니다. \n' +
+          '/slave : 누가 노예인지 확인합니다. \n' +
           '/unban : 강퇴 당한 유저를 초대할 수 있게 합니다.',
       );
     });
   }
 
-  onReceiveMessage(msg: any) {
+  onReceiveMessage = async (msg: any) => {
     this.logger.debug(msg);
-  }
+  };
 
   filterSpamMessage = async (msg: any) => {
     await this.bot.sendMessage(msg.chat.id, '링크를 포함시킬 수 없습니다.');
@@ -136,6 +154,16 @@ export class TelegramService {
     await this.bot.sendSticker(chatId, randomSticker);
     await this.bot.deleteMessage(chatId, msg.message_id);
     // await this.bot.banChatMember(msg.chat.id, 5353197008);
+  };
+
+  callGPT = async (prompt: string) => {
+    const param: OpenAI.Chat.ChatCompletionCreateParams = {
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+    };
+
+    const completion = await this.openai.chat.completions.create(param);
+    return completion.choices[0]?.message?.content;
   };
 
   @Cron(CronExpression.EVERY_DAY_AT_1PM)
