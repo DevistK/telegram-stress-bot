@@ -169,7 +169,7 @@ export class TelegramService {
     return completion.choices[0]?.message?.content;
   };
 
-  @Cron(CronExpression.EVERY_DAY_AT_1PM)
+  @Cron(CronExpression.MONDAY_TO_FRIDAY_AT_1PM)
   async cronMessage() {
     const chatIds = JSON.parse(
       fs.readFileSync('./src/common/chat/chatIds.json', 'utf-8'),
