@@ -188,7 +188,7 @@ export class TelegramService {
               chatIdObj.chatId,
               'https://img.insight.co.kr/static/2022/07/05/700/img_20220705152003_84l45870.webp',
             );
-            await this.bot.sendMessage(chatIdObj.chatId, '🍚ㄱㅅㄴㅇ', {
+            await this.bot.sendMessage(chatIdObj.chatId, '🍚 ㄱㅅㄴㅇ', {
               reply_markup: {
                 inline_keyboard: [
                   [

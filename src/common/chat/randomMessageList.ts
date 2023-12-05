@@ -8,7 +8,6 @@ export const filterWordMessageList = [
   '당신은 이 그룹에서 활동하지 못할 수도 있어요.',
   '죄송합니다. 그런 단어는 사용할 수 없습니다.',
   '비속어를 사용하셨습니다.',
-  '지휘관 그런말은 나쁩니다.',
 ];
 
 export const filterWordStickerList = [
