@@ -169,58 +169,58 @@ export class TelegramService {
     return completion.choices[0]?.message?.content;
   };
 
-  @Cron(CronExpression.EVERY_HOUR)
-  async cronHourCheck() {
-    const chatIds = JSON.parse(
-      fs.readFileSync('./src/common/chat/chatIds.json', 'utf-8'),
-    );
-
-    const member = await this.bot.getMe();
-
-    for (const chatIdObj of chatIds) {
-      try {
-        console.debug(`Success sending message to chat :: ${chatIdObj.chatId}`);
-
-        if (member.is_bot) {
-          const hasChat = await this.bot.getChat(chatIdObj.chatId);
-          const hour = new Date().getHours();
-          if (hasChat.id === Number(chatIdObj.chatId)) {
-            await this.bot.sendMessage(
-              chatIdObj.chatId,
-              `지금은 ${hour}시 입니다.`,
-              {
-                reply_markup: {
-                  inline_keyboard: [
-                    [
-                      {
-                        text: 'Solo Leveling : Unlimited',
-                        url: 'https://beta.sololeveling.otherworld.network/',
-                      },
-                    ],
-                  ],
-                },
-              },
-            );
-          }
-        }
-      } catch (error) {
-        console.error(
-          `Error sending message to chat ${chatIdObj.chatId}:`,
-          error,
-        );
-
-        const index = chatIds.indexOf(chatIdObj);
-        if (index !== -1) {
-          chatIds.splice(index, 1);
-
-          fs.writeFileSync(
-            './src/common/chat/chatIds.json',
-            JSON.stringify(chatIds),
-          );
-        }
-      }
-    }
-  }
+  // @Cron(CronExpression.EVERY_HOUR)
+  // async cronHourCheck() {
+  //   const chatIds = JSON.parse(
+  //     fs.readFileSync('./src/common/chat/chatIds.json', 'utf-8'),
+  //   );
+  //
+  //   const member = await this.bot.getMe();
+  //
+  //   for (const chatIdObj of chatIds) {
+  //     try {
+  //       console.debug(`Success sending message to chat :: ${chatIdObj.chatId}`);
+  //
+  //       if (member.is_bot) {
+  //         const hasChat = await this.bot.getChat(chatIdObj.chatId);
+  //         const hour = new Date().getHours();
+  //         if (hasChat.id === Number(chatIdObj.chatId)) {
+  //           await this.bot.sendMessage(
+  //             chatIdObj.chatId,
+  //             `지금은 ${hour}시 입니다.`,
+  //             {
+  //               reply_markup: {
+  //                 inline_keyboard: [
+  //                   [
+  //                     {
+  //                       text: 'Solo Leveling : Unlimited',
+  //                       url: 'https://beta.sololeveling.otherworld.network/',
+  //                     },
+  //                   ],
+  //                 ],
+  //               },
+  //             },
+  //           );
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error(
+  //         `Error sending message to chat ${chatIdObj.chatId}:`,
+  //         error,
+  //       );
+  //
+  //       const index = chatIds.indexOf(chatIdObj);
+  //       if (index !== -1) {
+  //         chatIds.splice(index, 1);
+  //
+  //         fs.writeFileSync(
+  //           './src/common/chat/chatIds.json',
+  //           JSON.stringify(chatIds),
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 
   @Cron(CronExpression.MONDAY_TO_FRIDAY_AT_1PM)
   async cronMessage() {
