@@ -5,8 +5,6 @@ import { linkRegex, wordRegex } from '../common/regex/filter.regex';
 import {
   chatCommend,
   helpCommend,
-  musicCommend,
-  randomMusicCommend,
   slaveCommend,
   smileCommend,
   smokeCommend,
@@ -21,7 +19,6 @@ import {
 } from '../common/chat/randomMessageList';
 
 import { google } from 'googleapis';
-import { youtubePlayList } from '../common/music';
 
 const Token = process.env.TELEGRAM_API_KEY;
 const TelegramBot = require('node-telegram-bot-api');
@@ -147,52 +144,52 @@ export class TelegramService {
       );
     });
 
-    this.bot.onText(randomMusicCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      const playListIndex = Math.floor(Math.random() * youtubePlayList.length);
-
-      const playlistItems = await this.youtube.playlistItems.list({
-        key: process.env.GOOGLE_API_KEY,
-        part: ['snippet'],
-        playlistId: youtubePlayList[playListIndex],
-        maxResults: 100, // Adjust the number of results as needed
-      });
-
-      const videos = playlistItems.data.items;
-      const randomIndex = Math.floor(Math.random() * videos.length);
-      const randomVideoId = videos[randomIndex].snippet.resourceId.videoId;
-
-      await this.bot.sendMessage(
-        chatId,
-        `https://www.youtube.com/watch?v=${randomVideoId}`,
-      );
-    });
-
-    this.bot.onText(musicCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      const matchText = msg.text.match(/\/music(.*)/);
-
-      if (matchText[1]) {
-        const res = await this.youtube.search.list({
-          key: process.env.GOOGLE_API_KEY,
-          part: ['snippet'],
-          q: matchText[1],
-          maxResults: 1,
-        });
-        console.log(res.data.items[0]);
-        await this.bot.sendMessage(
-          chatId,
-          `https://www.youtube.com/watch?v=${res.data.items[0].id.videoId}`,
-        );
-      } else {
-        await this.bot.sendMessage(
-          chatId,
-          '두번째 키워드가 입력되지 않았습니다.',
-        );
-      }
-    });
+    // this.bot.onText(randomMusicCommend, async (msg) => {
+    //   const chatId = msg.chat.id;
+    //
+    //   const playListIndex = Math.floor(Math.random() * youtubePlayList.length);
+    //
+    //   const playlistItems = await this.youtube.playlistItems.list({
+    //     key: process.env.GOOGLE_API_KEY,
+    //     part: ['snippet'],
+    //     playlistId: youtubePlayList[playListIndex],
+    //     maxResults: 100, // Adjust the number of results as needed
+    //   });
+    //
+    //   const videos = playlistItems.data.items;
+    //   const randomIndex = Math.floor(Math.random() * videos.length);
+    //   const randomVideoId = videos[randomIndex].snippet.resourceId.videoId;
+    //
+    //   await this.bot.sendMessage(
+    //     chatId,
+    //     `https://www.youtube.com/watch?v=${randomVideoId}`,
+    //   );
+    // });
+    //
+    // this.bot.onText(musicCommend, async (msg) => {
+    //   const chatId = msg.chat.id;
+    //
+    //   const matchText = msg.text.match(/\/music(.*)/);
+    //
+    //   if (matchText[1]) {
+    //     const res = await this.youtube.search.list({
+    //       key: process.env.GOOGLE_API_KEY,
+    //       part: ['snippet'],
+    //       q: matchText[1],
+    //       maxResults: 1,
+    //     });
+    //     console.log(res.data.items[0]);
+    //     await this.bot.sendMessage(
+    //       chatId,
+    //       `https://www.youtube.com/watch?v=${res.data.items[0].id.videoId}`,
+    //     );
+    //   } else {
+    //     await this.bot.sendMessage(
+    //       chatId,
+    //       '두번째 키워드가 입력되지 않았습니다.',
+    //     );
+    //   }
+    // });
   }
 
   onReceiveMessage = async (msg: any) => {
@@ -223,59 +220,6 @@ export class TelegramService {
     const completion = await this.openai.chat.completions.create(param);
     return completion.choices[0]?.message?.content;
   };
-
-  // @Cron(CronExpression.EVERY_HOUR)
-  // async cronHourCheck() {
-  //   const chatIds = JSON.parse(
-  //     fs.readFileSync('./src/common/chat/chatIds.json', 'utf-8'),
-  //   );
-  //
-  //   const member = await this.bot.getMe();
-  //
-  //   for (const chatIdObj of chatIds) {
-  //     try {
-  //       console.debug(`Success sending message to chat :: ${chatIdObj.chatId}`);
-  //
-  //       if (member.is_bot) {
-  //         const hasChat = await this.bot.getChat(chatIdObj.chatId);
-  //         const hour = new Date().getHours();
-  //         if (hasChat.id === Number(chatIdObj.chatId)) {
-  //           await this.bot.sendMessage(
-  //             chatIdObj.chatId,
-  //             `지금은 ${hour}시 입니다.`,
-  //             {
-  //               reply_markup: {
-  //                 inline_keyboard: [
-  //                   [
-  //                     {
-  //                       text: 'Solo Leveling : Unlimited',
-  //                       url: 'https://beta.sololeveling.otherworld.network/',
-  //                     },
-  //                   ],
-  //                 ],
-  //               },
-  //             },
-  //           );
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error(
-  //         `Error sending message to chat ${chatIdObj.chatId}:`,
-  //         error,
-  //       );
-  //
-  //       const index = chatIds.indexOf(chatIdObj);
-  //       if (index !== -1) {
-  //         chatIds.splice(index, 1);
-  //
-  //         fs.writeFileSync(
-  //           './src/common/chat/chatIds.json',
-  //           JSON.stringify(chatIds),
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
 
   @Cron(CronExpression.MONDAY_TO_FRIDAY_AT_1PM)
   async cronMessage() {
