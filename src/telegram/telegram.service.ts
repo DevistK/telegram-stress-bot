@@ -5,6 +5,8 @@ import { linkRegex, wordRegex } from '../common/regex/filter.regex';
 import {
   chatCommend,
   helpCommend,
+  musicCommend,
+  randomMusicCommend,
   slaveCommend,
   smileCommend,
   smokeCommend,
@@ -18,12 +20,16 @@ import {
   filterWordStickerList,
 } from '../common/chat/randomMessageList';
 
+import { google } from 'googleapis';
+import { youtubePlayList } from '../common/music';
+
 const Token = process.env.TELEGRAM_API_KEY;
 const TelegramBot = require('node-telegram-bot-api');
 
 @Injectable()
 export class TelegramService {
   private readonly bot: any;
+  private youtube = google.youtube('v3');
   private logger = new Logger(TelegramService.name);
   private openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -137,6 +143,53 @@ export class TelegramService {
           '/slave : 누가 노예인지 확인합니다. \n' +
           '/chat : gpt 4 turbo 를 소환합니다. \n',
       );
+    });
+
+    this.bot.onText(randomMusicCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const playListIndex = Math.floor(Math.random() * youtubePlayList.length);
+
+      const playlistItems = await this.youtube.playlistItems.list({
+        key: process.env.GOOGLE_API_KEY,
+        part: ['snippet'],
+        playlistId: youtubePlayList[playListIndex],
+        maxResults: 100, // Adjust the number of results as needed
+      });
+
+      const videos = playlistItems.data.items;
+      const randomIndex = Math.floor(Math.random() * videos.length);
+      const randomVideoId = videos[randomIndex].snippet.resourceId.videoId;
+
+      await this.bot.sendMessage(
+        chatId,
+        `https://www.youtube.com/watch?v=${randomVideoId}`,
+      );
+    });
+
+    this.bot.onText(musicCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const matchText = msg.text.match(/\/music(.*)/);
+
+      if (matchText[1]) {
+        const res = await this.youtube.search.list({
+          key: process.env.GOOGLE_API_KEY,
+          part: ['snippet'],
+          q: matchText[1],
+          maxResults: 1,
+        });
+        console.log(res.data.items[0]);
+        await this.bot.sendMessage(
+          chatId,
+          `https://www.youtube.com/watch?v=${res.data.items[0].id.videoId}`,
+        );
+      } else {
+        await this.bot.sendMessage(
+          chatId,
+          '두번째 키워드가 입력되지 않았습니다.',
+        );
+      }
     });
   }
 

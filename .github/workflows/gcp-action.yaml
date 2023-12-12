@@ -24,9 +24,11 @@ jobs:
         env:
           TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run : |
           echo "TELEGRAM_API_KEY=$TELEGRAM_API_KEY" >> env.dev
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> env.dev
+          echo "GOOGLE_API_KEY=$GOOGLE_API_KEY" >> env.dev
 
 
       - name : Build and Push Docker Images

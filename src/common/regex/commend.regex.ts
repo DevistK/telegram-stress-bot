@@ -10,4 +10,8 @@ export const unbanCommend = /\/unban/;
 
 export const helpCommend = /\/help/;
 
+export const musicCommend = /\/music/;
+
+export const randomMusicCommend = /\/rm/;
+
 export const chatCommend = /\/chat/;
