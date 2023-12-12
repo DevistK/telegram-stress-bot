@@ -141,9 +141,9 @@ export class TelegramService {
         chatId,
         '/start : 봇의 정보를 확인하는 개발자용 커맨드 \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
-          '/chat : gpt 4 turbo 를 소환합니다. \n',
-        '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n',
-        '/music : 원하는 노래를 검색합니다. \n',
+          '/chat : gpt 4 turbo 를 소환합니다. \n' +
+          '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
+          '/music : 원하는 노래를 검색합니다. \n',
       );
     });
 
