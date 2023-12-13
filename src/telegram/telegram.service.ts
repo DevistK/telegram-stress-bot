@@ -49,11 +49,7 @@ export class TelegramService {
         },
       ]);
 
-      if (linkRegex.test(msg.text)) {
-        await this.filterSpamMessage(msg);
-      } else if (wordRegex.test(msg.text)) {
-        await this.filterWordMessage(msg);
-      }
+      await this.filterWordMessage(msg);
     });
 
     this.bot.on('new_chat_members', async (msg: any) => {
