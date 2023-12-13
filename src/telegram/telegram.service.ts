@@ -111,8 +111,8 @@ export class TelegramService {
 
       if (matchText[1]) {
         const content = await this.callGPT(matchText[1]);
-        await this.bot.sendMessage(chatId, content);
         await this.bot.sendMessage(chatId, '답변을 생각하고 있습니다 . . .');
+        await this.bot.sendMessage(chatId, content);
       } else {
         await this.bot.sendMessage(
           chatId,
@@ -130,8 +130,8 @@ export class TelegramService {
 
       if (matchText[1]) {
         const content = await this.callGenerateImageDALLE(matchText[1]);
-        await this.bot.sendMessage(chatId, content);
         await this.bot.sendMessage(chatId, '이미지 그리고 있습니다 . . .');
+        await this.bot.sendMessage(chatId, content);
       } else {
         await this.bot.sendMessage(
           chatId,
