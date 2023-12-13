@@ -49,7 +49,9 @@ export class TelegramService {
         },
       ]);
 
-      await this.filterWordMessage(msg);
+      if (wordRegex.test(msg.text)) {
+        await this.filterWordMessage(msg);
+      }
     });
 
     this.bot.on('new_chat_members', async (msg: any) => {
