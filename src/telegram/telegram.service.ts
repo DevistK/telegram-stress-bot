@@ -5,6 +5,7 @@ import { linkRegex, wordRegex } from '../common/regex/filter.regex';
 import {
   chatCommend,
   helpCommend,
+  imageCommend,
   musicCommend,
   randomMusicCommend,
   slaveCommend,
@@ -87,6 +88,7 @@ export class TelegramService {
         '/start : 봇의 정보를 확인하는 개발자용 커맨드 \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
+          '/image : DALL-E 3 로 이미지를 만듭니다. \n' +
           '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
           '/music : 원하는 노래를 검색합니다. \n',
       );
@@ -98,6 +100,7 @@ export class TelegramService {
     this.onSmokeCommend();
     this.onSmileCommend();
     this.onMusicCommend();
+    this.onImageCommend();
   }
 
   onChatCommend = async () => {
@@ -109,6 +112,26 @@ export class TelegramService {
       if (matchText[1]) {
         const content = await this.callGPT(matchText[1]);
         await this.bot.sendMessage(chatId, content);
+        await this.bot.sendMessage(chatId, '답변을 생각하고 있습니다 . . .');
+      } else {
+        await this.bot.sendMessage(
+          chatId,
+          '두번째 키워드가 입력되지 않았습니다.',
+        );
+      }
+    });
+  };
+
+  onImageCommend = async () => {
+    this.bot.onText(imageCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const matchText = msg.text.match(/\/image(.*)/);
+
+      if (matchText[1]) {
+        const content = await this.callGenerateImageDALLE(matchText[1]);
+        await this.bot.sendMessage(chatId, content);
+        await this.bot.sendMessage(chatId, '이미지 그리고 있습니다 . . .');
       } else {
         await this.bot.sendMessage(
           chatId,
@@ -232,6 +255,17 @@ export class TelegramService {
     await this.bot.sendSticker(chatId, randomSticker);
     await this.bot.deleteMessage(chatId, msg.message_id);
     // await this.bot.banChatMember(msg.chat.id, 5353197008);
+  };
+
+  callGenerateImageDALLE = async (prompt: string) => {
+    const image = await this.openai.images.generate({
+      model: 'dall-e-3',
+      prompt: prompt,
+      n: 1,
+      size: '512x512',
+    });
+
+    return image.data[0];
   };
 
   callGPT = async (prompt: string) => {

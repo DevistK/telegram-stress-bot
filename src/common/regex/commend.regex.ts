@@ -15,3 +15,5 @@ export const musicCommend = /\/music/;
 export const randomMusicCommend = /\/rm/;
 
 export const chatCommend = /\/chat/;
+
+export const imageCommend = /\/chat/;
