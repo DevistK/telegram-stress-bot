@@ -67,22 +67,6 @@ export class TelegramService {
       );
     });
 
-    this.bot.onText(chatCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      const matchText = msg.text.match(/\/chat(.*)/);
-
-      if (matchText[1]) {
-        const content = await this.callGPT(matchText[1]);
-        await this.bot.sendMessage(chatId, content);
-      } else {
-        await this.bot.sendMessage(
-          chatId,
-          '두번째 키워드가 입력되지 않았습니다.',
-        );
-      }
-    });
-
     this.bot.onText(startCommend, async (msg) => {
       const chatId = msg.chat.id;
 
@@ -94,44 +78,6 @@ export class TelegramService {
         await this.bot.sendMessage(
           chatId,
           `Hello I am bot. my name is ${botUser.user.first_name}`,
-        );
-      }
-    });
-
-    this.bot.onText(slaveCommend, async (msg) => {
-      const chatId = msg.chat.id;
-      await this.bot.sendMessage(
-        chatId,
-        'This person is your slave.\n' +
-          'His name is @Hank.\n' +
-          'Please take good care of him. \n' +
-          'To move him, select the command below. ex) /smoke\n' +
-          "/smoke  : Let's go smoke on the first floor \n" +
-          '/smile : . Make me laugh',
-      );
-    });
-
-    this.bot.onText(smokeCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      await this.bot.sendMessage(chatId, 'Yes Master , ㄱㅅㄴㅇ @Pete @Emile');
-    });
-
-    this.bot.onText(smileCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      await this.bot.sendMessage(chatId, "I am my master's clown 🤡.");
-    });
-
-    this.bot.onText(unbanCommend, async (msg) => {
-      const chatId = msg.chat.id;
-      const superGroup = this.bot.getChat(chatId);
-
-      if (superGroup.type === 'supergroup') {
-        await this.bot.unbanChatMember(chatId, 5353197008);
-        await this.bot.sendMessage(
-          chatId,
-          '다시 밴 당하지 않도록 욕설에 주의해주세요.',
         );
       }
     });
@@ -148,6 +94,79 @@ export class TelegramService {
       );
     });
 
+    this.onSlaveCommend();
+    this.onChatCommend();
+    this.onRandomMusicCommend();
+    this.onSmokeCommend();
+    this.onSmileCommend();
+    this.onMusicCommend();
+  }
+
+  onChatCommend = async () => {
+    this.bot.onText(chatCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const matchText = msg.text.match(/\/chat(.*)/);
+
+      if (matchText[1]) {
+        const content = await this.callGPT(matchText[1]);
+        await this.bot.sendMessage(chatId, content);
+      } else {
+        await this.bot.sendMessage(
+          chatId,
+          '두번째 키워드가 입력되지 않았습니다.',
+        );
+      }
+    });
+  };
+
+  onSlaveCommend = async () => {
+    this.bot.onText(slaveCommend, async (msg) => {
+      const chatId = msg.chat.id;
+      await this.bot.sendMessage(
+        chatId,
+        'This person is your slave.\n' +
+          'His name is @Hank.\n' +
+          'Please take good care of him. \n' +
+          'To move him, select the command below. ex) /smoke\n' +
+          "/smoke  : Let's go smoke on the first floor \n" +
+          '/smile : . Make me laugh',
+      );
+    });
+  };
+
+  onSmokeCommend = async () => {
+    this.bot.onText(smokeCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      await this.bot.sendMessage(chatId, 'Yes Master , ㄱㅅㄴㅇ @Pete @Emile');
+    });
+  };
+
+  onSmileCommend = async () => {
+    this.bot.onText(smileCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      await this.bot.sendMessage(chatId, "I am my master's clown 🤡.");
+    });
+  };
+
+  onUnbanCommend = async () => {
+    this.bot.onText(unbanCommend, async (msg) => {
+      const chatId = msg.chat.id;
+      const superGroup = this.bot.getChat(chatId);
+
+      if (superGroup.type === 'supergroup') {
+        await this.bot.unbanChatMember(chatId, 5353197008);
+        await this.bot.sendMessage(
+          chatId,
+          '다시 밴 당하지 않도록 욕설에 주의해주세요.',
+        );
+      }
+    });
+  };
+
+  onRandomMusicCommend = async () => {
     this.bot.onText(randomMusicCommend, async (msg) => {
       const chatId = msg.chat.id;
 
@@ -169,7 +188,9 @@ export class TelegramService {
         `https://www.youtube.com/watch?v=${randomVideoId}`,
       );
     });
+  };
 
+  onMusicCommend = async () => {
     this.bot.onText(musicCommend, async (msg) => {
       const chatId = msg.chat.id;
 
@@ -194,7 +215,7 @@ export class TelegramService {
         );
       }
     });
-  }
+  };
 
   onReceiveMessage = async (msg: any) => {
     this.logger.debug(msg);
