@@ -110,8 +110,8 @@ export class TelegramService {
       const matchText = msg.text.match(/\/chat(.*)/);
 
       if (matchText[1]) {
-        const content = await this.callGPT(matchText[1]);
         await this.bot.sendMessage(chatId, '답변을 생각하고 있습니다 . . .');
+        const content = await this.callGPT(matchText[1]);
         await this.bot.sendMessage(chatId, content);
       } else {
         await this.bot.sendMessage(
@@ -129,8 +129,8 @@ export class TelegramService {
       const matchText = msg.text.match(/\/image(.*)/);
 
       if (matchText[1]) {
-        const content = await this.callGenerateImageDALLE(matchText[1]);
         await this.bot.sendMessage(chatId, '이미지 그리고 있습니다 . . .');
+        const content = await this.callGenerateImageDALLE(matchText[1]);
         await this.bot.sendMessage(chatId, content);
       } else {
         await this.bot.sendMessage(
@@ -262,10 +262,9 @@ export class TelegramService {
       model: 'dall-e-3',
       prompt: prompt,
       n: 1,
-      size: '512x512',
     });
 
-    return image.data[0];
+    return image.data[0].url;
   };
 
   callGPT = async (prompt: string) => {
