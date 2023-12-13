@@ -29,7 +29,7 @@ const TelegramBot = require('node-telegram-bot-api');
 @Injectable()
 export class TelegramService {
   private readonly bot: any;
-  private youtube = google.youtube('v3');
+  private readonly youtube: any;
   private logger = new Logger(TelegramService.name);
   private openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -37,6 +37,7 @@ export class TelegramService {
 
   constructor() {
     this.bot = new TelegramBot(Token, { polling: true });
+    this.youtube = google.youtube('v3');
 
     this.bot.on('message', async (msg: any) => {
       await this.onReceiveMessage(msg);
