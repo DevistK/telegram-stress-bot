@@ -128,15 +128,22 @@ export class TelegramService {
 
       const matchText = msg.text.match(/\/image(.*)/);
 
-      if (matchText[1]) {
-        await this.bot.sendMessage(chatId, '🎨 이미지를 그리고 있습니다 . . .');
-        const content = await this.callGenerateImageDALLE(matchText[1]);
-        await this.bot.sendPhoto(chatId, content);
-      } else {
-        await this.bot.sendMessage(
-          chatId,
-          '두번째 키워드가 입력되지 않았습니다.',
-        );
+      try {
+        if (matchText[1]) {
+          await this.bot.sendMessage(
+            chatId,
+            '🎨 이미지를 그리고 있습니다 . . .',
+          );
+          const content = await this.callGenerateImageDALLE(matchText[1]);
+          await this.bot.sendPhoto(chatId, content);
+        } else {
+          await this.bot.sendMessage(
+            chatId,
+            '두번째 키워드가 입력되지 않았습니다.',
+          );
+        }
+      } catch (e) {
+        console.log(e);
       }
     });
   };
@@ -261,9 +268,11 @@ export class TelegramService {
     const image = await this.openai.images.generate({
       model: 'dall-e-3',
       prompt: prompt,
+      size: '1024x1024',
       n: 1,
     });
 
+    console.log(image);
     return image.data[0].url;
   };
 
