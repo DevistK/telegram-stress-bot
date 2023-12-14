@@ -272,7 +272,6 @@ export class TelegramService {
       n: 1,
     });
 
-    console.log(image);
     return image.data[0].url;
   };
 
