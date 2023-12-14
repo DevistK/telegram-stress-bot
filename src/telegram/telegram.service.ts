@@ -269,8 +269,6 @@ export class TelegramService {
       model: 'dall-e-3',
       prompt: prompt,
       size: '1024x1024',
-      quality: 'hd',
-      style: 'vivid',
       n: 1,
     });
 
