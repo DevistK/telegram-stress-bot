@@ -76,7 +76,14 @@ export class TelegramService {
         console.log(botUser);
         await this.bot.sendMessage(
           chatId,
-          `Hello I am bot. my name is ${botUser.user.first_name}`,
+          `Hello I am bot. my name is ${botUser.user.first_name} \n` +
+            '❎ 모닝 테슬라 뉴스 트윗 공유 \n' +
+            '✅ 노예 확인 \n' +
+            '✅ 욕설 방지 \n' +
+            '✅ GPT 4 텍스트 생성 \n' +
+            '✅ DALL E 3 이미지 생성 \n' +
+            '✅ 유튜브 랜덤 플레이 리스트 노래 선곡 \n' +
+            '✅ 유튜브 노래 검색',
         );
       }
     });
@@ -85,7 +92,7 @@ export class TelegramService {
       const chatId = msg.chat.id;
       await this.bot.sendMessage(
         chatId,
-        '/start : 봇의 정보를 확인하는 개발자용 커맨드 \n' +
+        '/todo : 남은 업데이트 목록을 보여줍니다. \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
           '/gen : DALL-E 3 로 이미지를 만듭니다. \n' +
