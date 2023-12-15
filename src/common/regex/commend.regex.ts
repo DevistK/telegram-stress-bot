@@ -1,4 +1,4 @@
-export const startCommend = /\/start/;
+export const todoCommend = /\/todo/;
 
 export const slaveCommend = /\/slave/;
 

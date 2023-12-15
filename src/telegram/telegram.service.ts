@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import OpenAI from 'openai';
-import { linkRegex, wordRegex } from '../common/regex/filter.regex';
+import { wordRegex } from '../common/regex/filter.regex';
 import {
   chatCommend,
   helpCommend,
@@ -11,7 +11,7 @@ import {
   slaveCommend,
   smileCommend,
   smokeCommend,
-  startCommend,
+  todoCommend,
   unbanCommend,
 } from '../common/regex/commend.regex';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -66,7 +66,7 @@ export class TelegramService {
       );
     });
 
-    this.bot.onText(startCommend, async (msg) => {
+    this.bot.onText(todoCommend, async (msg) => {
       const chatId = msg.chat.id;
 
       const member = await this.bot.getMe();
