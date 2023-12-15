@@ -145,7 +145,7 @@ export class TelegramService {
     this.bot.onText(imageCommend, async (msg) => {
       const chatId = msg.chat.id;
 
-      const matchText = msg.text.match(/\/image(.*)/);
+      const matchText = msg.text.match(/\/gen(.*)/);
 
       try {
         if (matchText[1]) {
