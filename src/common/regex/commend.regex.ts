@@ -16,4 +16,4 @@ export const randomMusicCommend = /\/rm/;
 
 export const chatCommend = /\/chat/;
 
-export const imageCommend = /\/image/;
+export const imageCommend = /\/gen/;
