@@ -109,14 +109,26 @@ export class TelegramService {
 
       const matchText = msg.text.match(/\/chat(.*)/);
 
-      if (matchText[1]) {
-        await this.bot.sendMessage(chatId, '🫴 답변을 생각하고 있습니다 . . .');
-        const content = await this.callGPT(matchText[1]);
-        await this.bot.sendMessage(chatId, content);
-      } else {
+      try {
+        if (matchText[1]) {
+          await this.bot.sendMessage(
+            chatId,
+            '🫴 답변을 생각하고 있습니다 . . .',
+          );
+          const content = await this.callGPT(matchText[1]);
+          await this.bot.sendMessage(chatId, content);
+        } else {
+          await this.bot.sendMessage(
+            chatId,
+            '두번째 키워드가 입력되지 않았습니다.',
+          );
+        }
+      } catch (e) {
+        await this.bot.sendMessage(chatId, `에러가 발생했습니다 ! ${e}`);
         await this.bot.sendMessage(
           chatId,
-          '두번째 키워드가 입력되지 않았습니다.',
+          '한도를 초과 했을 수도 있어요..\n' +
+            'GPT-4 로 생성한 텍스트는 후원을 받지 않습니다.\n',
         );
       }
     });
@@ -143,7 +155,14 @@ export class TelegramService {
           );
         }
       } catch (e) {
-        console.log(e);
+        await this.bot.sendMessage(chatId, `에러가 발생했습니다 ! ${e}`);
+        await this.bot.sendMessage(
+          chatId,
+          '한도를 초과 했을 수도 있어요..\n' +
+            '개발자에게 후원해주시면 더 많은 이미지를 생성 할 수 있어요.\n' +
+            '커피한잔에 높은 퀄리티의 그림을 가져가세요 !\n' +
+            '☕️ Donate : KB 39200204169338 | 3000 원',
+        );
       }
     });
   };
