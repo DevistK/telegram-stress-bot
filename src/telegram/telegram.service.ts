@@ -303,7 +303,14 @@ export class TelegramService {
   callGPT = async (prompt: string) => {
     const param: OpenAI.Chat.ChatCompletionCreateParams = {
       model: 'gpt-4-1106-preview',
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        {
+          role: 'system',
+          content:
+            '유저의 원하는 바를 파악하고 창의적인 답변을 하는게 목표입니다.',
+        },
+        { role: 'user', content: prompt },
+      ],
     };
 
     const completion = await this.openai.chat.completions.create(param);
