@@ -77,7 +77,6 @@ export class TelegramService {
         await this.bot.sendMessage(
           chatId,
           `Hello I am bot. my name is ${botUser.user.first_name} \n` +
-            '❎ 모닝 테슬라 뉴스 트윗 공유 \n' +
             '✅ 노예 확인 \n' +
             '✅ 욕설 방지 \n' +
             '✅ GPT 4 텍스트 생성 \n' +
