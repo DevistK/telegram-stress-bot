@@ -176,6 +176,7 @@ export class TelegramService {
   onSlaveCommend = async () => {
     this.bot.onText(slaveCommend, async (msg) => {
       const chatId = msg.chat.id;
+      await this.bot.sendPhoto(chatId, './src/asset/mang_go.webp');
       await this.bot.sendMessage(
         chatId,
         'This person is your slave.\n' +

@@ -18,4 +18,5 @@ export const filterWordStickerList = [
   './src/asset/lapi.webp',
   './src/asset/orca.webp',
   './src/asset/ribbon.webp',
+  './src/asset/what.webp',
 ];
