@@ -204,6 +204,7 @@ export class TelegramService {
     this.bot.onText(smileCommend, async (msg) => {
       const chatId = msg.chat.id;
 
+      await this.bot.sendPhoto(chatId, './src/asset/mang_smile.webp');
       await this.bot.sendMessage(chatId, "I am my master's clown 🤡.");
     });
   };
