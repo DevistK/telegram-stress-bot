@@ -11,8 +11,11 @@ export const filterWordMessageList = [
 ];
 
 export const filterWordStickerList = [
-  './src/asset/asset1.webp',
-  './src/asset/asset2.webp',
-  './src/asset/asset3.webp',
-  './src/asset/asset4.webp',
+  './src/asset/mang_angry.webp',
+  './src/asset/mang_wa.webp',
+  './src/asset/mang_zoom.webp',
+  './src/asset/anis.webp',
+  './src/asset/lapi.webp',
+  './src/asset/orca.webp',
+  './src/asset/ribbon.webp',
 ];

@@ -191,8 +191,11 @@ export class TelegramService {
   onSmokeCommend = async () => {
     this.bot.onText(smokeCommend, async (msg) => {
       const chatId = msg.chat.id;
-
-      await this.bot.sendMessage(chatId, 'Yes Master , ㄱㅅㄴㅇ @Pete @Emile');
+      await this.bot.sendPhoto(chatId, './src/asset/mang1.webp');
+      await this.bot.sendMessage(
+        chatId,
+        '@Hank : Yes Master , ㄱㅅㄴㅇ @Pete @Emile',
+      );
     });
   };
 
