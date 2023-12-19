@@ -339,22 +339,23 @@ export class TelegramService {
         if (member.is_bot) {
           const hasChat = await this.bot.getChat(chatIdObj.chatId);
           if (hasChat.id === Number(chatIdObj.chatId)) {
-            await this.bot.sendPhoto(
+            await this.bot.sendPhoto(chatIdObj.chatId, './src/asset/snow.webp');
+            await this.bot.sendMessage(
               chatIdObj.chatId,
-              'https://img.insight.co.kr/static/2022/07/05/700/img_20220705152003_84l45870.webp',
-            );
-            await this.bot.sendMessage(chatIdObj.chatId, '🍚 ㄱㅅㄴㅇ', {
-              reply_markup: {
-                inline_keyboard: [
-                  [
-                    {
-                      text: 'Solo Leveling : Unlimited',
-                      url: 'https://beta.sololeveling.otherworld.network/',
-                    },
+              '@Roun, @Elon, @Hank, @Pete, @Emile 🍚 ㄱㅅㄴㅇ',
+              {
+                reply_markup: {
+                  inline_keyboard: [
+                    [
+                      {
+                        text: 'Solo Leveling : Unlimited',
+                        url: 'https://beta.sololeveling.otherworld.network/',
+                      },
+                    ],
                   ],
-                ],
+                },
               },
-            });
+            );
           }
         }
       } catch (error) {
