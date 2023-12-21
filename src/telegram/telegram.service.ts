@@ -314,7 +314,7 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            '유저의 원하는 바를 파악하고 창의적인 답변을 하는게 목표입니다.',
+            "Try to have at least three different answers to accomplish the user's goal before answering, and try to incorporate at least one joke into your answer.",
         },
         { role: 'user', content: prompt },
       ],
