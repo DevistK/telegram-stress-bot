@@ -314,7 +314,9 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            "Try to have at least three different answers to accomplish the user's goal before answering, and try to incorporate at least one joke into your answer.",
+            "1.Give at least three different answers to meet the user's objectives before answering. \n" +
+            "2. Mix in jokes, but be sure to keep things in perspective so that you don't make the user feel bad.\n" +
+            '3. Try to provoke the user with cynical and realistic answers.',
         },
         { role: 'user', content: prompt },
       ],
