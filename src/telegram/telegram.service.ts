@@ -97,7 +97,8 @@ export class TelegramService {
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
           '/gen : DALL-E 3 로 이미지를 만듭니다. \n' +
           '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
-          '/music : 원하는 노래를 검색합니다. \n',
+          '/music : 원하는 노래를 검색합니다. \n' +
+          '/per : 현재 AI의 인격을 체크합니다. \n',
       );
     });
 
