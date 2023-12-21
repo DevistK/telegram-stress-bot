@@ -7,6 +7,7 @@ import {
   helpCommend,
   imageCommend,
   musicCommend,
+  personaCommend,
   randomMusicCommend,
   slaveCommend,
   smileCommend,
@@ -107,6 +108,7 @@ export class TelegramService {
     this.onSmileCommend();
     this.onMusicCommend();
     this.onImageCommend();
+    this.onPersonaCommend();
   }
 
   onChatCommend = async () => {
@@ -272,6 +274,24 @@ export class TelegramService {
           '두번째 키워드가 입력되지 않았습니다.',
         );
       }
+    });
+  };
+
+  onPersonaCommend = async () => {
+    this.bot.onText(personaCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      await this.bot.sendPhoto(chatId, './src/asset/mang_wa.webp');
+      await this.bot.sendMessage(
+        chatId,
+        '현재 GPT에 적용되어있는 인격 명령입니다.',
+      );
+      await this.bot.sendMessage(
+        chatId,
+        '1.사용자의 목적 달성을 위한 답변의 다양성을 3개정도 가진 후 답변을 하세요. \n' +
+          '2. 농담을 섞어서 이야기 하지만 , 사용자의 기분이 나쁘지 않도록 상황을 분간 지어서 적절히 이야기 하도록 하세요.\n' +
+          '3. 냉소적이고 현실적인 답변으로 사용자를 자극하도록 노력하세요.',
+      );
     });
   };
 
