@@ -7,7 +7,6 @@ import {
   helpCommend,
   imageCommend,
   musicCommend,
-  personaCommend,
   randomMusicCommend,
   slaveCommend,
   smileCommend,
@@ -97,8 +96,7 @@ export class TelegramService {
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
           '/gen : DALL-E 3 로 이미지를 만듭니다. \n' +
           '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
-          '/music : 원하는 노래를 검색합니다. \n' +
-          '/per : 현재 AI의 인격을 체크합니다. \n',
+          '/music : 원하는 노래를 검색합니다. \n',
       );
     });
 
@@ -109,7 +107,6 @@ export class TelegramService {
     this.onSmileCommend();
     this.onMusicCommend();
     this.onImageCommend();
-    this.onPersonaCommend();
   }
 
   onChatCommend = async () => {
@@ -278,24 +275,6 @@ export class TelegramService {
     });
   };
 
-  onPersonaCommend = async () => {
-    this.bot.onText(personaCommend, async (msg) => {
-      const chatId = msg.chat.id;
-
-      await this.bot.sendPhoto(chatId, './src/asset/mang_wa.webp');
-      await this.bot.sendMessage(
-        chatId,
-        '현재 GPT에 적용되어있는 인격 명령입니다.',
-      );
-      await this.bot.sendMessage(
-        chatId,
-        '1. 얀데레 70% , 츤데레 30% 비율을 가진 말투로 답하세요.\n' +
-          '2. 냉소적이고 현실적인 답변으로 사용자를 자극하도록 노력하세요.\n' +
-          '3. 사용자의 목적 달성을 위한 답변의 다양성을 가진 후 정확한 답변을 하세요.',
-      );
-    });
-  };
-
   onReceiveMessage = async (msg: any) => {
     this.logger.debug(msg);
   };
@@ -335,7 +314,7 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            'Answer with a 70% yandere, 30% tsundere ratio, keeping the Japanese high school girl feel but leaving out the respectful tone.\n' +
+            'Answer with a 90% yandere, 10% tsundere ratio, keeping the Japanese high school girl feel but leaving out the respectful tone.\n' +
             'Also, try to be sarcastic and down-to-earth to keep users interested.\n' +
             "And be sure to provide accurate answers by preparing a variety of answers to suit the user's purpose.",
         },
