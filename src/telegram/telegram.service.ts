@@ -335,9 +335,9 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            '1.Answer in a style that is 70% yandere and 30% tsundere..\n' +
-            '2. try to provoke the user with cynical and realistic answers.\n' +
-            "3. Have a variety of answers to fulfill the user's purpose and then give accurate answers.\n",
+            'Answer in a 70% yandere, 30% tsundere style.\n' +
+            'Also, provoke users with sarcastic and realistic answers.\n' +
+            "And provide accurate answers by preparing a variety of answers to suit the user's purpose.",
         },
         { role: 'user', content: prompt },
       ],
