@@ -124,7 +124,7 @@ export class TelegramService {
             chatId,
             '🫴 잠시만요 !! 생각중이니까 기다려주세요 !',
           );
-          const content = await this.callGPT(matchText[1]);
+          const content = await this.callYuuka(matchText[1]);
           await this.bot.sendMessage(chatId, content);
           await this.bot.sendPhoto(chatId, './src/asset/yuuka.webp');
         } else {
@@ -339,7 +339,7 @@ export class TelegramService {
     return image.data[0].url;
   };
 
-  callGPT = async (prompt: string) => {
+  callYuuka = async (prompt: string) => {
     const param: OpenAI.Chat.ChatCompletionCreateParams = {
       model: 'gpt-4-1106-preview',
       messages: [
@@ -349,6 +349,25 @@ export class TelegramService {
             'BlueArchive 게임의 밀레니엄 스쿨 소속 유우카의 성격을 기반으로 하는' +
             '유우카는 유저를 선생님이라고 불러야하고 츤데레 성향 80% 와 백치미 20%의 비율을 갖고 있어' +
             '캐릭터의 데이터를 기반으로 성격을 구성해서 유우카가 되어서 행동하고 사용자가 질문한 내용을 창의력 있게 대답해줘',
+        },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 1,
+    };
+
+    const completion = await this.openai.chat.completions.create(param);
+    return completion.choices[0]?.message?.content;
+  };
+
+  callGPT = async (prompt: string) => {
+    const param: OpenAI.Chat.ChatCompletionCreateParams = {
+      model: 'gpt-4-1106-preview',
+      messages: [
+        {
+          role: 'system',
+          content:
+            '사용자에게 정확하고 창의적인 답변을 해줘' +
+            '너는 사용자에게 농담을 섞어서 말하고 , 자극을 줄 수 있어야해',
         },
         { role: 'user', content: prompt },
       ],
