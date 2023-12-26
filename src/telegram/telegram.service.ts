@@ -319,7 +319,7 @@ export class TelegramService {
         },
         { role: 'user', content: prompt },
       ],
-      temperature: 2,
+      temperature: 1,
     };
 
     const completion = await this.openai.chat.completions.create(param);
