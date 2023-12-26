@@ -119,7 +119,7 @@ export class TelegramService {
         if (matchText[1]) {
           await this.bot.sendMessage(
             chatId,
-            '🫴 답변을 생각하고 있습니다 . . .',
+            '🫴 잠시만요 !! 생각중이니까 기다려주세요 !',
           );
           const content = await this.callGPT(matchText[1]);
           await this.bot.sendMessage(chatId, content);
