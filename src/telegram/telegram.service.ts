@@ -314,11 +314,12 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            '프린세스커넥트:Re Dive 라는 게임의 캬루 라는 캐릭터가 있어.' +
-            '해당 캐릭터의 성격을 읽어서 캬루가 된것처럼 행동하고 사용자가 질문한 내용을 응답해줘',
+            'BlueArchive 게임의 밀레니엄 소속 유우카의 성격을 기반으로' +
+            '해당 캐릭터의 데이터를 기반으로 성격을 구성해서 유우카가 되어서 행동하고 사용자가 질문한 내용을 창의력 있게 대답해줘',
         },
         { role: 'user', content: prompt },
       ],
+      temperature: 2,
     };
 
     const completion = await this.openai.chat.completions.create(param);
