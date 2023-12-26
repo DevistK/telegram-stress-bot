@@ -13,6 +13,7 @@ import {
   smokeCommend,
   todoCommend,
   unbanCommend,
+  yuCommend,
 } from '../common/regex/commend.regex';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { generatorRandomMsg } from '../util/generator';
@@ -94,6 +95,7 @@ export class TelegramService {
         '/todo : 남은 업데이트 목록을 보여줍니다. \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
+          '/yu : 블루아카이브 유우카랑 대화합니다. \n' +
           '/gen : DALL-E 3 로 이미지를 만듭니다. \n' +
           '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
           '/music : 원하는 노래를 검색합니다. \n',
@@ -102,12 +104,45 @@ export class TelegramService {
 
     this.onSlaveCommend();
     this.onChatCommend();
+    this.onYuCommend();
     this.onRandomMusicCommend();
     this.onSmokeCommend();
     this.onSmileCommend();
     this.onMusicCommend();
     this.onImageCommend();
   }
+
+  onYuCommend = async () => {
+    this.bot.onText(yuCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const matchText = msg.text.match(/\/yu(.*)/);
+
+      try {
+        if (matchText[1]) {
+          await this.bot.sendMessage(
+            chatId,
+            '🫴 잠시만요 !! 생각중이니까 기다려주세요 !',
+          );
+          const content = await this.callGPT(matchText[1]);
+          await this.bot.sendMessage(chatId, content);
+          await this.bot.sendPhoto(chatId, './src/asset/yuuka.webp');
+        } else {
+          await this.bot.sendMessage(
+            chatId,
+            '두번째 키워드가 입력되지 않았는데요..?',
+          );
+        }
+      } catch (e) {
+        await this.bot.sendMessage(chatId, `에러가 발생했습니다 ! ${e}`);
+        await this.bot.sendMessage(
+          chatId,
+          '한도를 초과 했을 수도 있어요..\n' +
+            '선생님 아껴쓰시라고 했잖아요.\n',
+        );
+      }
+    });
+  };
 
   onChatCommend = async () => {
     this.bot.onText(chatCommend, async (msg) => {
@@ -117,10 +152,7 @@ export class TelegramService {
 
       try {
         if (matchText[1]) {
-          await this.bot.sendMessage(
-            chatId,
-            '🫴 잠시만요 !! 생각중이니까 기다려주세요 !',
-          );
+          await this.bot.sendMessage(chatId, '🫴 답변을 생각중입니다 . . .');
           const content = await this.callGPT(matchText[1]);
           await this.bot.sendMessage(chatId, content);
         } else {

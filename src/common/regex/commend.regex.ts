@@ -18,4 +18,6 @@ export const chatCommend = /\/chat/;
 
 export const imageCommend = /\/gen/;
 
+export const yuCommend = /\/yu/;
+
 export const personaCommend = /\/per/;
