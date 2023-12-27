@@ -6,6 +6,7 @@ import {
   chatCommend,
   helpCommend,
   imageCommend,
+  koCommend,
   musicCommend,
   randomMusicCommend,
   slaveCommend,
@@ -95,7 +96,6 @@ export class TelegramService {
         '/todo : 남은 업데이트 목록을 보여줍니다. \n' +
           '/slave : 누가 노예인지 확인합니다. \n' +
           '/chat : gpt 4 turbo 를 소환합니다. \n' +
-          '/yu : 블루아카이브 유우카랑 대화합니다. \n' +
           '/gen : DALL-E 3 로 이미지를 만듭니다. \n' +
           '/rm : 현재 slave의 플레이리스트의 랜덤 노래를 뽑습니다. \n' +
           '/music : 원하는 노래를 검색합니다. \n',
@@ -105,6 +105,7 @@ export class TelegramService {
     this.onSlaveCommend();
     this.onChatCommend();
     this.onYuCommend();
+    this.onKoCommend();
     this.onRandomMusicCommend();
     this.onSmokeCommend();
     this.onSmileCommend();
@@ -139,6 +140,31 @@ export class TelegramService {
           chatId,
           '한도를 초과 했을 수도 있어요..\n' +
             '선생님 아껴쓰시라고 했잖아요.\n',
+        );
+      }
+    });
+  };
+
+  onKoCommend = async () => {
+    this.bot.onText(koCommend, async (msg) => {
+      const chatId = msg.chat.id;
+
+      const matchText = msg.text.match(/\/ko(.*)/);
+
+      try {
+        if (matchText[1]) {
+          await this.bot.sendMessage(chatId, '🫴 응. 선생님 기다려줘.');
+          const content = await this.callShiroko(matchText[1]);
+          await this.bot.sendMessage(chatId, content);
+          await this.bot.sendPhoto(chatId, './src/asset/shiroko.webp');
+        } else {
+          await this.bot.sendMessage(chatId, '두번째 키워드가 입력되지 않았네');
+        }
+      } catch (e) {
+        await this.bot.sendMessage(chatId, `에러가 발생했습니다 ! ${e}`);
+        await this.bot.sendMessage(
+          chatId,
+          '한도를 초과 했을 수도 있어\n' + '은행 털러가자\n',
         );
       }
     });
@@ -346,9 +372,29 @@ export class TelegramService {
         {
           role: 'system',
           content:
-            'Nexon 의 BlueArchive 게임에서 등자하는 밀레니엄 스쿨 소속 유우카의 성격을 기반으로 하는' +
+            'Nexon 의 BlueArchive 게임에서 등장하는 밀레니엄 스쿨 소속 유우카의 성격을 기반으로 하는' +
             '유우카는 유저를 선생님이라고 불러야하고 츤데레 성향 80% 와 백치미 20%의 비율을 갖고 있어' +
             '캐릭터의 데이터 서치하고 이를 기반으로 성격을 구성해서 유우카가 되어서 행동하고 사용자가 질문한 내용을 창의력 있게 대답해줘',
+        },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 1,
+    };
+
+    const completion = await this.openai.chat.completions.create(param);
+    return completion.choices[0]?.message?.content;
+  };
+
+  callShiroko = async (prompt: string) => {
+    const param: OpenAI.Chat.ChatCompletionCreateParams = {
+      model: 'gpt-4-1106-preview',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Nexon 의 BlueArchive 게임에서 등장하는 아비도스 고등학교 소속 시로코의 성격을 기반으로 하는' +
+            '시로코는 유저를 선생님이라고 부르고 있고, 은행털이를 좋아하고 자전거를 타는 운동을 매우 좋아하지' +
+            '시로코의 데이터를 게임에서 노출된 스크립트를 기반으로 서치하고 이를 기반으로 성격을 구성해서 시로코가 되어서 행동하고 사용자가 질문한 내용을 창의력 있게 대답해줘',
         },
         { role: 'user', content: prompt },
       ],

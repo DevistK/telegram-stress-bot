@@ -20,4 +20,6 @@ export const imageCommend = /\/gen/;
 
 export const yuCommend = /\/yu/;
 
+export const koCommend = /\/ko/;
+
 export const personaCommend = /\/per/;
