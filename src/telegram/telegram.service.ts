@@ -226,7 +226,7 @@ export class TelegramService {
       await this.bot.sendPhoto(chatId, './src/asset/mang1.webp');
       await this.bot.sendMessage(
         chatId,
-        '@Hank : Yes Master , ㄱㅅㄴㅇ @Pete @Emile',
+        '@Hank : Yes Master , ㄱㅅㄴㅇ @Pete @Emile @라운',
       );
     });
   };
