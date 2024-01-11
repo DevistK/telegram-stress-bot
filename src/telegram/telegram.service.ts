@@ -329,9 +329,9 @@ export class TelegramService {
     const image = await this.openai.images.generate({
       model: 'dall-e-3',
       prompt: prompt,
-      size: '1792x1024',
+      size: '1024x1024',
       quality: 'hd',
-      style: 'vivid',
+      style: 'natural',
       n: 1,
     });
 
