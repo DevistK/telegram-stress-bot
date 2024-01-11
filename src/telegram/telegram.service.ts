@@ -329,7 +329,7 @@ export class TelegramService {
     const image = await this.openai.images.generate({
       model: 'dall-e-3',
       prompt: prompt,
-      size: '1024x1024',
+      size: '1792x1024',
       quality: 'hd',
       style: 'vivid',
       n: 1,
@@ -359,23 +359,27 @@ export class TelegramService {
   };
 
   callGPT = async (prompt: string) => {
-    const param: OpenAI.Chat.ChatCompletionCreateParams = {
-      model: 'gpt-4-1106-preview',
-      messages: [
-        {
-          role: 'system',
-          content:
-            '사용자에게 정확하고 창의적인 답변을 해줘' +
-            '너는 사용자에게 농담을 섞어서 말하고 , 자극을 줄 수 있어야해' +
-            '또한 차가운 감정처럼 말하기를 원하지 않으니 존칭은 쓰지마',
-        },
-        { role: 'user', content: prompt },
-      ],
-      temperature: 1,
-    };
+    try {
+      const param: OpenAI.Chat.ChatCompletionCreateParams = {
+        model: 'gpt-4-1106-preview',
+        messages: [
+          {
+            role: 'system',
+            content:
+              '사용자에게 정확하고 창의적인 답변을 해줘' +
+              '사용자는 확실한 답을 원해. 데이터를 기반으로 하되 앞으로 너의 생각을 부여해서 대답해' +
+              '또한 차가운 감정으로 말하기를 원하지 않으니 존칭은 쓰지마',
+          },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 1,
+      };
 
-    const completion = await this.openai.chat.completions.create(param);
-    return completion.choices[0]?.message?.content;
+      const completion = await this.openai.chat.completions.create(param);
+      return completion.choices[0]?.message?.content;
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   @Cron(CronExpression.MONDAY_TO_FRIDAY_AT_1PM)
